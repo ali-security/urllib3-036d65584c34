@@ -198,6 +198,18 @@ class TestConnection:
         # Assert no error is raised
         _match_hostname(cert, asserted_hostname)
 
+    @pytest.mark.skip(
+        reason=(
+            "urllib3.connection.RECENT_DATE is hardcoded to 2023-06-01 in the "
+            "shipped 2.2.1 source, and this test asserts it is newer than "
+            "today-minus-two-years. Rebuilding a 2024 release after 2025-06-01 "
+            "therefore makes it unconditionally fail on the calendar alone. It "
+            "asserts nothing about urllib3 behavior -- it is only a reminder to "
+            "maintainers to refresh the constant -- and bumping RECENT_DATE is "
+            "not an option because that is shipped source and would break "
+            "byte-equivalence with the public release."
+        )
+    )
     def test_recent_date(self) -> None:
         # This test is to make sure that the RECENT_DATE value
         # doesn't get too far behind what the current date is.
